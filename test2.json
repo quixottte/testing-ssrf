@@ -1,6 +1,6 @@
 {"app": {
       "id": "analytics-dashboard",
-      "name": "Analytics Dashboard",
+      "name": "{{7*7}}",
       "description": "A comprehensive analytics dashboard with key metrics, charts, and data tables",
       "theme": {
         "primaryColor": "#1976d2",
