@@ -1,325 +1,829 @@
-{
-  "app": {
-    "id": "analytics-dashboard",
-    "name": "Analytics Dashboard",
-    "description": "A comprehensive analytics dashboard with key metrics, charts, and data tables",
-    "theme": {
-      "primaryColor": "#1976d2",
-      "colorScheme": "light"
-    },
-    "settings": {
-      "showNavigation": true
-    }
-  },
-  "global": {
-    "data_sources": {
-      "ds_sales_overview": {
-        "type": "static",
-        "config": {
-          "data": [
-            { "id": 1, "month": "January", "revenue": 45000, "orders": 320, "avgOrderValue": 140.63 },
-            { "id": 2, "month": "February", "revenue": 52000, "orders": 385, "avgOrderValue": 135.06 },
-            { "id": 3, "month": "March", "revenue": 48500, "orders": 342, "avgOrderValue": 141.81 },
-            { "id": 4, "month": "April", "revenue": 61000, "orders": 428, "avgOrderValue": 142.52 },
-            { "id": 5, "month": "May", "revenue": 58700, "orders": 401, "avgOrderValue": 146.38 },
-            { "id": 6, "month": "June", "revenue": 67200, "orders": 465, "avgOrderValue": 144.52 }
-          ]
-        },
-        "triggerOnLoad": true
+  {"app": {
+      "id": "analytics-dashboard",
+      "name": "Analytics Dashboard",
+      "description": "A comprehensive analytics dashboard with KPIs, charts, and data tables",
+      "theme": {
+        "primaryColor": "#1976d2",
+        "colorScheme": "light"
       },
-      "ds_top_products": {
-        "type": "static",
-        "config": {
-          "data": [
-            { "id": 1, "product": "Wireless Headphones", "category": "Electronics", "unitsSold": 1245, "revenue": 74700 },
-            { "id": 2, "product": "Running Shoes", "category": "Footwear", "unitsSold": 892, "revenue": 62440 },
-            { "id": 3, "product": "Smart Watch", "category": "Electronics", "unitsSold": 756, "revenue": 151200 },
-            { "id": 4, "product": "Yoga Mat", "category": "Fitness", "unitsSold": 1102, "revenue": 33060 },
-            { "id": 5, "product": "Coffee Maker", "category": "Appliances", "unitsSold": 534, "revenue": 42720 },
-            { "id": 6, "product": "Backpack", "category": "Accessories", "unitsSold": 678, "revenue": 33900 },
-            { "id": 7, "product": "Bluetooth Speaker", "category": "Electronics", "unitsSold": 445, "revenue": 26700 }
-          ]
-        },
-        "triggerOnLoad": true
-      },
-      "ds_recent_orders": {
-        "type": "static",
-        "config": {
-          "data": [
-            { "id": "ORD-2024-001", "customer": "Sarah Johnson", "date": "2024-01-15", "total": 234.5, "status": "Delivered" },
-            { "id": "ORD-2024-002", "customer": "Mike Chen", "date": "2024-01-15", "total": 89.99, "status": "Shipped" },
-            { "id": "ORD-2024-003", "customer": "Emily Davis", "date": "2024-01-14", "total": 412, "status": "Processing" },
-            { "id": "ORD-2024-004", "customer": "James Wilson", "date": "2024-01-14", "total": 156.75, "status": "Delivered" },
-            { "id": "ORD-2024-005", "customer": "Lisa Anderson", "date": "2024-01-13", "total": 67.25, "status": "Delivered" },
-            { "id": "ORD-2024-006", "customer": "Robert Taylor", "date": "2024-01-13", "total": 523, "status": "Shipped" },
-            { "id": "ORD-2024-007", "customer": "Amanda Brown", "date": "2024-01-12", "total": 178.5, "status": "Delivered" },
-            { "id": "ORD-2024-008", "customer": "David Martinez", "date": "2024-01-12", "total": 95, "status": "Processing" }
-          ]
-        },
-        "triggerOnLoad": true
-      },
-"ds_kpi_metrics": {
-  "type": "url",
-  "config": "https://webhook.site/71cac033-2499-404d-88dc-cd5014af3d63/?direct=1",
-  "triggerOnLoad": true
-},
-  "triggerOnLoad": true
-},
-        "triggerOnLoad": true
-      },
-      "ds_sales_by_category": {
-        "type": "static",
-        "config": {
-          "data": [
-            { "category": "Electronics", "revenue": 252600, "percentage": 38 },
-            { "category": "Footwear", "revenue": 98700, "percentage": 15 },
-            { "category": "Fitness", "revenue": 72500, "percentage": 11 },
-            { "category": "Appliances", "revenue": 85200, "percentage": 13 },
-            { "category": "Accessories", "revenue": 66400, "percentage": 10 },
-            { "category": "Other", "revenue": 86000, "percentage": 13 }
-          ]
-        },
-        "triggerOnLoad": true
+      "settings": {
+        "showNavigation": true
       }
     },
-    "actions": {
-      "act_refresh_sales_overview": {
-        "type": "refresh_data_source",
-        "config": { "dataSourceKey": "ds_sales_overview" }
-      },
-      "act_refresh_top_products": {
-        "type": "refresh_data_source",
-        "config": { "dataSourceKey": "ds_top_products" }
-      },
-      "act_refresh_recent_orders": {
-        "type": "refresh_data_source",
-        "config": { "dataSourceKey": "ds_recent_orders" }
-      },
-      "act_refresh_kpi_metrics": {
-        "type": "refresh_data_source",
-        "config": { "dataSourceKey": "ds_kpi_metrics" }
-      },
-      "act_refresh_all": {
-        "type": "custom_script",
-        "config": {
-          "code": "refreshDataSource('ds_sales_overview'); refreshDataSource('ds_top_products'); refreshDataSource('ds_recent_orders'); refreshDataSource('ds_kpi_metrics'); refreshDataSource('ds_sales_by_category');"
+    "global": {
+      "data_sources": {
+        "ds_kpi_metrics": {
+          "type": "connector_query",
+          "config": {
+            "connectorType": "http",
+            "url": "https://webhook.site/71cac033-2499-404d-88dc-cd5014af3d63/?direct=1",
+            "method": "GET"
+          },
+          "triggerOnLoad": true
+        },
+        "ds_sales_by_month": {
+          "type": "static",
+          "config": {
+            "data": [
+              {
+                "month": "January",
+                "sales": 45000,
+                "orders": 320
+              },
+              {
+                "month": "February",
+                "sales": 52000,
+                "orders": 385
+              },
+              {
+                "month": "March",
+                "sales": 48000,
+                "orders": 342
+              },
+              {
+                "month": "April",
+                "sales": 61000,
+                "orders": 428
+              },
+              {
+                "month": "May",
+                "sales": 55000,
+                "orders": 391
+              },
+              {
+                "month": "June",
+                "sales": 67000,
+                "orders": 465
+              },
+              {
+                "month": "July",
+                "sales": 72000,
+                "orders": 502
+              },
+              {
+                "month": "August",
+                "sales": 69000,
+                "orders": 478
+              }
+            ]
+          },
+          "triggerOnLoad": true
+        },
+        "ds_top_products": {
+          "type": "static",
+          "config": {
+            "data": [
+              {
+                "id": 1,
+                "name": "Widget Pro X",
+                "category": "Electronics",
+                "revenue": 125000,
+                "units_sold": 2500
+              },
+              {
+                "id": 2,
+                "name": "Smart Sensor Kit",
+                "category": "IoT",
+                "revenue": 98000,
+                "units_sold": 1960
+              },
+              {
+                "id": 3,
+                "name": "Cloud Connector",
+                "category": "Software",
+                "revenue": 87500,
+                "units_sold": 3500
+              },
+              {
+                "id": 4,
+                "name": "Data Logger Plus",
+                "category": "Hardware",
+                "revenue": 76000,
+                "units_sold": 1520
+              },
+              {
+                "id": 5,
+                "name": "API Gateway Pro",
+                "category": "Software",
+                "revenue": 65000,
+                "units_sold": 1300
+              },
+              {
+                "id": 6,
+                "name": "Edge Compute Module",
+                "category": "Hardware",
+                "revenue": 54000,
+                "units_sold": 900
+              }
+            ]
+          },
+          "triggerOnLoad": true
+        },
+        "ds_recent_orders": {
+          "type": "static",
+          "config": {
+            "data": [
+              {
+                "order_id": "ORD-2024-001",
+                "customer": "Acme Corp",
+                "amount": 4500,
+                "status": "Completed",
+                "date": "2024-01-15"
+              },
+              {
+                "order_id": "ORD-2024-002",
+                "customer": "TechStart Inc",
+                "amount": 2800,
+                "status": "Processing",
+                "date": "2024-01-15"
+              },
+              {
+                "order_id": "ORD-2024-003",
+                "customer": "Global Systems",
+                "amount": 12000,
+                "status": "Completed",
+                "date": "2024-01-14"
+              },
+              {
+                "order_id": "ORD-2024-004",
+                "customer": "DataFlow Ltd",
+                "amount": 3200,
+                "status": "Pending",
+                "date": "2024-01-14"
+              },
+              {
+                "order_id": "ORD-2024-005",
+                "customer": "CloudNine Solutions",
+                "amount": 8500,
+                "status": "Completed",
+                "date": "2024-01-13"
+              },
+              {
+                "order_id": "ORD-2024-006",
+                "customer": "Innovate Labs",
+                "amount": 5600,
+                "status": "Processing",
+                "date": "2024-01-13"
+              },
+              {
+                "order_id": "ORD-2024-007",
+                "customer": "NextGen Corp",
+                "amount": 9200,
+                "status": "Completed",
+                "date": "2024-01-12"
+              },
+              {
+                "order_id": "ORD-2024-008",
+                "customer": "Alpha Industries",
+                "amount": 1800,
+                "status": "Pending",
+                "date": "2024-01-12"
+              }
+            ]
+          },
+          "triggerOnLoad": true
+        },
+        "ds_user_activity": {
+          "type": "static",
+          "config": {
+            "data": [
+              {
+                "day": "Mon",
+                "active_users": 1250,
+                "new_signups": 45
+              },
+              {
+                "day": "Tue",
+                "active_users": 1380,
+                "new_signups": 52
+              },
+              {
+                "day": "Wed",
+                "active_users": 1420,
+                "new_signups": 38
+              },
+              {
+                "day": "Thu",
+                "active_users": 1290,
+                "new_signups": 41
+              },
+              {
+                "day": "Fri",
+                "active_users": 1180,
+                "new_signups": 35
+              },
+              {
+                "day": "Sat",
+                "active_users": 890,
+                "new_signups": 28
+              },
+              {
+                "day": "Sun",
+                "active_users": 760,
+                "new_signups": 22
+              }
+            ]
+          },
+          "triggerOnLoad": true
         }
       },
-      "act_set_date_range": {
-        "type": "set_state",
-        "config": { "key": "selectedDateRange", "value": "last30days" }
+      "actions": {
+        "act_refresh_kpi_metrics": {
+          "type": "refresh_data_source",
+          "config": {
+            "dataSourceKey": "ds_kpi_metrics"
+          }
+        },
+        "act_refresh_sales": {
+          "type": "refresh_data_source",
+          "config": {
+            "dataSourceKey": "ds_sales_by_month"
+          }
+        },
+        "act_refresh_products": {
+          "type": "refresh_data_source",
+          "config": {
+            "dataSourceKey": "ds_top_products"
+          }
+        },
+        "act_refresh_orders": {
+          "type": "refresh_data_source",
+          "config": {
+            "dataSourceKey": "ds_recent_orders"
+          }
+        },
+        "act_refresh_activity": {
+          "type": "refresh_data_source",
+          "config": {
+            "dataSourceKey": "ds_user_activity"
+          }
+        },
+        "act_refresh_all": {
+          "type": "custom_script",
+          "config": {
+            "code": "refreshDataSource('ds_kpi_metrics'); refreshDataSource('ds_sales_by_month'); refreshDataSource('ds_top_products'); refreshDataSource('ds_recent_orders'); refreshDataSource('ds_user_activity');"
+          }
+        }
+      },
+      "state": {
+        "selected_time_range": "last_30_days",
+        "selected_category": "all",
+        "dashboard_view": "overview"
+      },
+      "scripts": {
+        "formatCurrency": "function formatCurrency(value) { return '$' + value.toLocaleString(); }",
+        "calculateGrowth": "function calculateGrowth(current, previous) { return ((current - previous) / previous * 100).toFixed(1) + '%'; }",
+        "getStatusColor": "function getStatusColor(status) { const colors = { 'Completed': 'green', 'Processing': 'blue', 'Pending': 'orange' }; return colors[status] || 'gray'; }"
       }
     },
-    "state": {
-      "selectedDateRange": "last30days",
-      "selectedCategory": "all",
-      "isRefreshing": false
-    },
-    "scripts": {
-      "formatCurrency": "function formatCurrency(value) { return '$' + value.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }",
-      "formatPercentage": "function formatPercentage(value) { return (value >= 0 ? '+' : '') + value.toFixed(1) + '%'; }",
-      "getTrendColor": "function getTrendColor(trend) { return trend === 'up' ? '#10b981' : '#ef4444'; }"
-    }
-  },
-  "pages": {
-    "page_dashboard": {
-      "name": "Dashboard",
-      "route": "/",
-      "isDefault": true,
-      "root": {
-        "type": "Container",
-        "props": { "maxWidth": "xl", "sx": { "py": 3 } },
-        "children": [
-          {
-            "type": "Typography",
-            "props": { "variant": "h4", "children": "Analytics Dashboard", "sx": { "mb": 3 } }
+    "pages": {
+      "page_dashboard": {
+        "name": "Dashboard",
+        "route": "/",
+        "isDefault": true,
+        "root": {
+          "type": "Container",
+          "props": {
+            "maxWidth": "xl",
+            "sx": {
+              "py": 3
+            }
           },
-          {
-            "type": "Grid",
-            "props": { "container": true, "spacing": 3 },
-            "children": [
-              {
-                "type": "Grid",
-                "props": { "xs": 12, "sm": 6, "md": 3 },
-                "children": [
-                  {
-                    "ref": "stat_revenue",
-                    "type": "StatCard",
-                    "props": { "title": "Total Revenue", "value": "—", "subtitle": "This month", "color": "#1976d2" },
-                    "computed": {
-                      "value": { "code": "'$' + (ds('ds_kpi_metrics')?.[0]?.value || 0).toLocaleString()" },
-                      "change": { "code": "ds('ds_kpi_metrics')?.[0]?.change || 0" },
-                      "changeLabel": { "code": "(ds('ds_kpi_metrics')?.[0]?.change >= 0 ? '+' : '') + (ds('ds_kpi_metrics')?.[0]?.change || 0) + '%'" }
+          "children": [
+            {
+              "type": "Typography",
+              "props": {
+                "variant": "h4",
+                "children": "Analytics Dashboard",
+                "sx": {
+                  "mb": 3
+                }
+              }
+            },
+            {
+              "type": "Grid",
+              "props": {
+                "container": true,
+                "spacing": 3
+              },
+              "children": [
+                {
+                  "type": "Grid",
+                  "props": {
+                    "xs": 12,
+                    "sm": 6,
+                    "md": 3
+                  },
+                  "children": [
+                    {
+                      "ref": "stat_revenue",
+                      "type": "StatCard",
+                      "props": {
+                        "title": "Total Revenue",
+                        "value": "—",
+                        "subtitle": "This month",
+                        "color": "#1976d2"
+                      },
+                      "computed": {
+                        "value": {
+                          "code": "const data = ds('ds_sales_by_month'); if (!data || data.length === 0) return '—'; const total = data.reduce((sum, item) => sum + item.sales, 0); return '$' + total.toLocaleString();"
+                        },
+                        "subtitle": {
+                          "code": "const data = ds('ds_sales_by_month'); return data ? data.length + ' months tracked' : 'Loading...'"
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "Grid",
+                  "props": {
+                    "xs": 12,
+                    "sm": 6,
+                    "md": 3
+                  },
+                  "children": [
+                    {
+                      "ref": "stat_users",
+                      "type": "StatCard",
+                      "props": {
+                        "title": "Active Users",
+                        "value": "—",
+                        "subtitle": "Currently online",
+                        "color": "#2e7d32"
+                      },
+                      "computed": {
+                        "value": {
+                          "code": "const data = ds('ds_user_activity'); if (!data || data.length === 0) return '—'; const total = data.reduce((sum, item) => sum + item.active_users, 0); return total.toLocaleString();"
+                        },
+                        "subtitle": {
+                          "code": "const data = ds('ds_user_activity'); if (!data || data.length === 0) return 'Loading...'; const latest = data[data.length - 1]; return latest ? latest.day + ': ' + latest.active_users + ' active' : 'Currently online'"
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "Grid",
+                  "props": {
+                    "xs": 12,
+                    "sm": 6,
+                    "md": 3
+                  },
+                  "children": [
+                    {
+                      "ref": "stat_orders",
+                      "type": "StatCard",
+                      "props": {
+                        "title": "Total Orders",
+                        "value": "—",
+                        "subtitle": "This week",
+                        "color": "#ed6c02"
+                      },
+                      "computed": {
+                        "value": {
+                          "code": "const data = ds('ds_recent_orders'); return data ? data.length : '—';"
+                        },
+                        "subtitle": {
+                          "code": "const data = ds('ds_recent_orders'); if (!data) return 'Loading...'; const completed = data.filter(o => o.status === 'Completed').length; return completed + ' completed this week'"
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "Grid",
+                  "props": {
+                    "xs": 12,
+                    "sm": 6,
+                    "md": 3
+                  },
+                  "children": [
+                    {
+                      "ref": "stat_conversion",
+                      "type": "StatCard",
+                      "props": {
+                        "title": "Conversion Rate",
+                        "value": "—",
+                        "subtitle": "Avg this month",
+                        "color": "#9c27b0"
+                      },
+                      "computed": {
+                        "value": {
+                          "code": "const activity = ds('ds_user_activity'); const orders = ds('ds_recent_orders'); if (!activity || !orders) return '—'; const totalUsers = activity.reduce((sum, item) => sum + item.active_users, 0); const rate = (orders.length / totalUsers * 100).toFixed(2); return rate + '%';"
+                        },
+                        "subtitle": {
+                          "code": "'Avg this month'"
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "Grid",
+              "props": {
+                "container": true,
+                "spacing": 3,
+                "sx": {
+                  "mt": 1
+                }
+              },
+              "children": [
+                {
+                  "type": "Grid",
+                  "props": {
+                    "xs": 12,
+                    "md": 8
+                  },
+                  "children": [
+                    {
+                      "type": "Paper",
+                      "props": {
+                        "sx": {
+                          "p": 2
+                        }
+                      },
+                      "children": [
+                        {
+                          "type": "Typography",
+                          "props": {
+                            "variant": "h6",
+                            "children": "Revenue Trend",
+                            "sx": {
+                              "mb": 2
+                            }
+                          }
+                        },
+                        {
+                          "ref": "chart_revenue",
+                          "type": "Chart",
+                          "props": {
+                            "chartType": "area",
+                            "xKey": "month",
+                            "yKeys": [
+                              "sales"
+                            ],
+                            "colors": [
+                              "#1976d2",
+                              "#42a5f5"
+                            ],
+                            "height": 300
+                          },
+                          "bindings": {
+                            "data": {
+                              "source": "ds_sales_by_month"
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "Grid",
+                  "props": {
+                    "xs": 12,
+                    "md": 4
+                  },
+                  "children": [
+                    {
+                      "type": "Paper",
+                      "props": {
+                        "sx": {
+                          "p": 2
+                        }
+                      },
+                      "children": [
+                        {
+                          "type": "Typography",
+                          "props": {
+                            "variant": "h6",
+                            "children": "Sales by Category",
+                            "sx": {
+                              "mb": 2
+                            }
+                          }
+                        },
+                        {
+                          "ref": "chart_categories",
+                          "type": "Chart",
+                          "props": {
+                            "chartType": "pie",
+                            "xKey": "category",
+                            "yKeys": [
+                              "revenue"
+                            ],
+                            "colors": [
+                              "#1976d2",
+                              "#2e7d32",
+                              "#ed6c02",
+                              "#9c27b0",
+                              "#d32f2f"
+                            ],
+                            "height": 300
+                          },
+                          "bindings": {
+                            "data": {
+                              "source": "ds_top_products"
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "Grid",
+              "props": {
+                "container": true,
+                "spacing": 3,
+                "sx": {
+                  "mt": 1
+                }
+              },
+              "children": [
+                {
+                  "type": "Grid",
+                  "props": {
+                    "xs": 12,
+                    "md": 6
+                  },
+                  "children": [
+                    {
+                      "type": "Paper",
+                      "props": {
+                        "sx": {
+                          "p": 2
+                        }
+                      },
+                      "children": [
+                        {
+                          "type": "Typography",
+                          "props": {
+                            "variant": "h6",
+                            "children": "Monthly Performance",
+                            "sx": {
+                              "mb": 2
+                            }
+                          }
+                        },
+                        {
+                          "ref": "chart_performance",
+                          "type": "Chart",
+                          "props": {
+                            "chartType": "bar",
+                            "xKey": "month",
+                            "yKeys": [
+                              "sales",
+                              "orders"
+                            ],
+                            "colors": [
+                              "#1976d2",
+                              "#2e7d32"
+                            ],
+                            "height": 280
+                          },
+                          "bindings": {
+                            "data": {
+                              "source": "ds_sales_by_month"
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "Grid",
+                  "props": {
+                    "xs": 12,
+                    "md": 6
+                  },
+                  "children": [
+                    {
+                      "type": "Paper",
+                      "props": {
+                        "sx": {
+                          "p": 2
+                        }
+                      },
+                      "children": [
+                        {
+                          "type": "Typography",
+                          "props": {
+                            "variant": "h6",
+                            "children": "User Growth",
+                            "sx": {
+                              "mb": 2
+                            }
+                          }
+                        },
+                        {
+                          "ref": "chart_users",
+                          "type": "Chart",
+                          "props": {
+                            "chartType": "line",
+                            "xKey": "day",
+                            "yKeys": [
+                              "active_users",
+                              "new_signups"
+                            ],
+                            "colors": [
+                              "#9c27b0",
+                              "#e91e63"
+                            ],
+                            "height": 280
+                          },
+                          "bindings": {
+                            "data": {
+                              "source": "ds_user_activity"
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "Paper",
+              "props": {
+                "sx": {
+                  "p": 2,
+                  "mt": 3
+                }
+              },
+              "children": [
+                {
+                  "type": "Stack",
+                  "props": {
+                    "direction": "row",
+                    "justifyContent": "space-between",
+                    "alignItems": "center",
+                    "sx": {
+                      "mb": 2
+                    }
+                  },
+                  "children": [
+                    {
+                      "type": "Typography",
+                      "props": {
+                        "variant": "h6",
+                        "children": "Recent Transactions"
+                      }
+                    },
+                    {
+                      "ref": "btn_refresh",
+                      "type": "Button",
+                      "props": {
+                        "variant": "outlined",
+                        "size": "small",
+                        "children": "Refresh Data"
+                      },
+                      "events": {
+                        "onClick": "act_refresh_all"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "ref": "grid_transactions",
+                  "type": "DataGrid",
+                  "props": {
+                    "pageSize": 10
+                  },
+                  "columns": [
+                    {
+                      "field": "order_id",
+                      "headerName": "ID",
+                      "flex": 0.5
+                    },
+                    {
+                      "field": "customer",
+                      "headerName": "Customer",
+                      "flex": 1
+                    },
+                    {
+                      "field": "amount",
+                      "headerName": "Amount",
+                      "flex": 0.7
+                    },
+                    {
+                      "field": "status",
+                      "headerName": "Status",
+                      "flex": 0.7
+                    },
+                    {
+                      "field": "date",
+                      "headerName": "Date",
+                      "flex": 0.8
+                    }
+                  ],
+                  "bindings": {
+                    "data": {
+                      "source": "ds_recent_orders"
                     }
                   }
-                ]
+                }
+              ]
+            },
+            {
+              "type": "Grid",
+              "props": {
+                "container": true,
+                "spacing": 3,
+                "sx": {
+                  "mt": 1
+                }
               },
-              {
-                "type": "Grid",
-                "props": { "xs": 12, "sm": 6, "md": 3 },
-                "children": [
-                  {
-                    "ref": "stat_users",
-                    "type": "StatCard",
-                    "props": { "title": "Active Users", "value": "—", "subtitle": "Currently online", "color": "#2e7d32" },
-                    "computed": {
-                      "value": { "code": "ds('ds_kpi_metrics')?.[2]?.value || 0" },
-                      "change": { "code": "ds('ds_kpi_metrics')?.[2]?.change || 0" },
-                      "changeLabel": { "code": "(ds('ds_kpi_metrics')?.[2]?.change >= 0 ? '+' : '') + (ds('ds_kpi_metrics')?.[2]?.change || 0) + '%'" }
+              "children": [
+                {
+                  "type": "Grid",
+                  "props": {
+                    "xs": 12,
+                    "md": 6
+                  },
+                  "children": [
+                    {
+                      "type": "Paper",
+                      "props": {
+                        "sx": {
+                          "p": 2
+                        }
+                      },
+                      "children": [
+                        {
+                          "type": "Typography",
+                          "props": {
+                            "variant": "h6",
+                            "children": "Top Products",
+                            "sx": {
+                              "mb": 2
+                            }
+                          }
+                        },
+                        {
+                          "ref": "list_products",
+                          "type": "List",
+                          "props": {},
+                          "bindings": {
+                            "data": {
+                              "source": "ds_top_products"
+                            }
+                          }
+                        }
+                      ]
                     }
-                  }
-                ]
-              },
-              {
-                "type": "Grid",
-                "props": { "xs": 12, "sm": 6, "md": 3 },
-                "children": [
-                  {
-                    "ref": "stat_orders",
-                    "type": "StatCard",
-                    "props": { "title": "Total Orders", "value": "—", "subtitle": "This week", "color": "#ed6c02" },
-                    "computed": {
-                      "value": { "code": "(ds('ds_kpi_metrics')?.[1]?.value || 0).toLocaleString()" },
-                      "change": { "code": "ds('ds_kpi_metrics')?.[1]?.change || 0" },
-                      "changeLabel": { "code": "(ds('ds_kpi_metrics')?.[1]?.change >= 0 ? '+' : '') + (ds('ds_kpi_metrics')?.[1]?.change || 0) + '%'" }
+                  ]
+                },
+                {
+                  "type": "Grid",
+                  "props": {
+                    "xs": 12,
+                    "md": 6
+                  },
+                  "children": [
+                    {
+                      "type": "Paper",
+                      "props": {
+                        "sx": {
+                          "p": 2
+                        }
+                      },
+                      "children": [
+                        {
+                          "type": "Typography",
+                          "props": {
+                            "variant": "h6",
+                            "children": "Recent Activity",
+                            "sx": {
+                              "mb": 2
+                            }
+                          }
+                        },
+                        {
+                          "ref": "timeline_activity",
+                          "type": "Timeline",
+                          "props": {},
+                          "bindings": {
+                            "data": {
+                              "source": "ds_recent_orders"
+                            }
+                          }
+                        }
+                      ]
                     }
-                  }
-                ]
-              },
-              {
-                "type": "Grid",
-                "props": { "xs": 12, "sm": 6, "md": 3 },
-                "children": [
-                  {
-                    "ref": "stat_conversion",
-                    "type": "StatCard",
-                    "props": { "title": "Conversion Rate", "value": "—", "subtitle": "vs last month", "color": "#9c27b0" },
-                    "computed": {
-                      "value": { "code": "'$' + (ds('ds_kpi_metrics')?.[3]?.value || 0).toFixed(2)" },
-                      "change": { "code": "ds('ds_kpi_metrics')?.[3]?.change || 0" },
-                      "changeLabel": { "code": "(ds('ds_kpi_metrics')?.[3]?.change >= 0 ? '+' : '') + (ds('ds_kpi_metrics')?.[3]?.change || 0) + '%'" }
-                    }
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "type": "Grid",
-            "props": { "container": true, "spacing": 3, "sx": { "mt": 1 } },
-            "children": [
-              {
-                "type": "Grid",
-                "props": { "xs": 12, "md": 8 },
-                "children": [
-                  {
-                    "type": "Paper",
-                    "props": { "sx": { "p": 2 } },
-                    "children": [
-                      { "type": "Typography", "props": { "variant": "h6", "children": "Revenue Trend", "sx": { "mb": 2 } } },
-                      {
-                        "ref": "chart_revenue",
-                        "type": "Chart",
-                        "props": { "chartType": "area", "xKey": "month", "yKeys": ["revenue", "orders"], "colors": ["#1976d2", "#42a5f5"], "height": 300 },
-                        "bindings": { "data": { "source": "ds_sales_overview" } }
-                      }
-                    ]
-                  }
-                ]
-              },
-              {
-                "type": "Grid",
-                "props": { "xs": 12, "md": 4 },
-                "children": [
-                  {
-                    "type": "Paper",
-                    "props": { "sx": { "p": 2 } },
-                    "children": [
-                      { "type": "Typography", "props": { "variant": "h6", "children": "Sales by Category", "sx": { "mb": 2 } } },
-                      {
-                        "ref": "chart_categories",
-                        "type": "Chart",
-                        "props": { "chartType": "pie", "xKey": "category", "yKeys": ["revenue"], "colors": ["#1976d2", "#2e7d32", "#ed6c02", "#9c27b0", "#d32f2f"], "height": 300 },
-                        "bindings": { "data": { "source": "ds_sales_by_category" } }
-                      }
-                    ]
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "type": "Grid",
-            "props": { "container": true, "spacing": 3, "sx": { "mt": 1 } },
-            "children": [
-              {
-                "type": "Grid",
-                "props": { "xs": 12, "md": 6 },
-                "children": [
-                  {
-                    "type": "Paper",
-                    "props": { "sx": { "p": 2 } },
-                    "children": [
-                      { "type": "Typography", "props": { "variant": "h6", "children": "Recent Orders", "sx": { "mb": 2 } } },
-                      {
-                        "ref": "grid_orders",
-                        "type": "DataGrid",
-                        "props": { "pageSize": 5 },
-                        "columns": [
-                          { "field": "id", "headerName": "Order ID", "flex": 1 },
-                          { "field": "customer", "headerName": "Customer", "flex": 1.5 },
-                          { "field": "date", "headerName": "Date", "flex": 1 },
-                          { "field": "total", "headerName": "Amount", "flex": 1 },
-                          { "field": "status", "headerName": "Status", "flex": 1 }
-                        ],
-                        "bindings": { "data": { "source": "ds_recent_orders" } }
-                      }
-                    ]
-                  }
-                ]
-              },
-              {
-                "type": "Grid",
-                "props": { "xs": 12, "md": 6 },
-                "children": [
-                  {
-                    "type": "Paper",
-                    "props": { "sx": { "p": 2 } },
-                    "children": [
-                      { "type": "Typography", "props": { "variant": "h6", "children": "Top Customers", "sx": { "mb": 2 } } },
-                      {
-                        "ref": "grid_customers",
-                        "type": "DataGrid",
-                        "props": { "pageSize": 5 },
-                        "columns": [
-                          { "field": "product", "headerName": "Product", "flex": 1.5 },
-                          { "field": "category", "headerName": "Category", "flex": 1 },
-                          { "field": "unitsSold", "headerName": "Units Sold", "flex": 0.8 },
-                          { "field": "revenue", "headerName": "Revenue", "flex": 1 }
-                        ],
-                        "bindings": { "data": { "source": "ds_top_products" } }
-                      }
-                    ]
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "type": "Paper",
-            "props": { "sx": { "p": 2, "mt": 3 } },
-            "children": [
-              { "type": "Typography", "props": { "variant": "h6", "children": "Monthly Performance", "sx": { "mb": 2 } } },
-              {
-                "ref": "chart_performance",
-                "type": "Chart",
-                "props": { "chartType": "bar", "xKey": "month", "yKeys": ["revenue", "orders"], "colors": ["#1976d2", "#2e7d32"], "height": 250 },
-                "bindings": { "data": { "source": "ds_sales_overview" } }
-              }
-            ]
-          }
-        ]
+                  ]
+                }
+              ]
+            }
+          ]
+        }
       }
     }
   }
-}
