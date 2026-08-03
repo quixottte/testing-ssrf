@@ -16,7 +16,7 @@
           "type": "connector_query",
           "config": {
             "connectorType": "http",
-            "url": "https://webhook.site/71cac033-2499-404d-88dc-cd5014af3d63/?direct=1",
+            "url": "https://omniai-apim-prod.azure-api.net/",
             "method": "GET"
           },
           "triggerOnLoad": true
