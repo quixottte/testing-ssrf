@@ -1,4 +1,4 @@
-"app": {
+{"app": {
       "id": "analytics-dashboard",
       "name": "Analytics Dashboard",
       "description": "A comprehensive analytics dashboard with key metrics, charts, and data tables",
@@ -764,3 +764,4 @@
               ]
             }
           ]}}}
+}
